@@ -1,17 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Code Quiz</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
 </head>
+
+
 <body>
+    <div class="header">
+        <header>
+            <h2 id="viewScores">View Highscores</h2>
+            <h2 id="time">Time:</h2>
+        </header>
+    </div>
 
-    <Header>
+    <div class="container">
+        <h1>Coding Quiz</h1>
+        <p id="paragraph">
+            Try to answer the following questions in the given time limit
+            <br>
+            If you get an answer wrong, 10 seconds will be deducted from your time and score.
+            <button id="startButton" type="button" class="btn btn-primary" style="display: block;">Start Quiz</button>
+        </p>
 
-    </Header>
+    </div>
+
+    <div id="questions" class="hide">
+        <h2 id="questionTitle"></h2>
+        <div id="choices" class="choices"></div>
+    </div>
+
+    <div id="resultsDiv" class="hide">
+        <h3>All Done</h3>
+        <h5>Your final score is <span id="score"> </span> </h5>
+        <h5 id="yourInitials">Enter your initials:</h5>
+        <form id="submit">
+            <input id="initials" placeholder="Your Initials" type="text">
+            <button type="submit">SUBMIT</button>
+        </form>
+    </div>
+
+    <div id="scoresDiv">
+        <h1>Top Scores</h1>
+        <ul id="scoreslist">
+        </ul>
+    </div>
 
     <script src="./script.js"></script>
 </body>
+
 </html>
