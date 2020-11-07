@@ -6,6 +6,8 @@ var timer;
 var timerInterval;
 var display;
 
+
+
 var questions = [{
     title: "Commonly used data types DO NOT include:",
     choices: ["strings", "booleans", "alerts", "numbers"],
@@ -61,10 +63,18 @@ function answerButtonClicked(event) {
 function endGame() {
     clearInterval(timerInterval);
     console.log("game over");
+    console.log(timer);
     document.querySelector('#resultsDiv').style.display = "block";
     document.querySelector('.container').style.display = "none";
     document.querySelector('#score').textContent = timer;
     document.querySelector('#time').textContent = timer;
+    document.querySelector('#questionTitle').innerHTML = "";
+    document.querySelector('#paragraph').innerHTML = "";
+    ul.innerHTML = '';
+    var restart = document.querySelector('#restart');
+    restart.addEventListener('click', function() {
+        window.location.href = ""
+    });
 }
 
 function displayQuestion(event) {
@@ -83,7 +93,7 @@ function displayQuestion(event) {
         var li = document.createElement('li');
         var choiceButton = document.createElement("button");
         choiceButton.setAttribute('value', currentQuestion.choices[i]);
-        choiceButton.textConent = currentQuestion.choices[i];
+        choiceButton.textContent = currentQuestion.choices[i];
         choiceButton.onclick = answerButtonClicked;
         choiceButton.classList.add('answerChoice');
         li.append(choiceButton);
@@ -111,8 +121,8 @@ function startTimer(duration, display) {
         display.textContent = minutes + ":" + seconds;
 
         if (--timer < 0) {
-            timer = duration;
-            
+            timer = 0;
+            return endGame();
         }
     }, 1000);
 }
@@ -121,9 +131,21 @@ function startTimer(duration, display) {
 //store in local storage
 document.querySelector('#submit').addEventListener('submit', function(event) {
     event.preventDefault();
+    var scores = localStorage.getItem("scores");
+    if (!scores) {
+        scores = []
+    }
+    else {
+        scores = JSON.parse(scores)
+    }
     var initials = document.querySelector('#initials').value
-    localStorage.setItem(initials, timer);
+    scores.push({
+        initials: initials, 
+        score: timer
+    });
+    localStorage.setItem("scores", JSON.stringify(scores));
     displayScores();
+
 
 } )
 
@@ -135,13 +157,20 @@ document.querySelector('#viewScores').addEventListener('click', displayScores)
 
 function displayScores() {
     document.querySelector('#scoresDiv').style.display = "block";
-    Object.keys(localStorage). forEach(function(key) {
-        console.log(localStorage.getItem(key));
-
+    var scores = localStorage.getItem("scores");
+    if (!scores) {
+        scores = []
+    }
+    else {
+        scores = JSON.parse(scores)
+    }
+    document.querySelector('#scoreslist').innerHTML = '';
+    scores.forEach(function(item) {
+       
         var li = document.createElement('li');
-        li.textContent = key + '-' + localStorage.getItem(key)
+        li.textContent = item.initials + '-' + item.score
         document.querySelector('#scoreslist').appendChild(li)
-    })
+    });
     document.querySelector('.container').style.display = "none";
     document.querySelector('#resultsDiv').style.display = "none";
 }
